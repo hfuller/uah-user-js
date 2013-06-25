@@ -21,14 +21,15 @@
 
 //login fix
 var form = document.getElementsByName("form1")[0];
-if ( form != null ) {
-	//form.action = 'javascript:document.form1.Username.value = document.form0.Username.value;document.form1.action = js_AppName + "?Login"; document.form1.method = "post"; document.getElementsByTagName("img")[0].src = "http://i.imgur.com/r1ym7Op.gif"; setTimeout(function(){document.form1.submit();},1000);';
+if ( form != null && document.getElementsByName("Password").length > 0 ) {
+	//we are on the login page.
 	
 	//page mods
 	document.getElementsByTagName("img")[0].height = "300";
 	document.getElementsByTagName("img")[0].width  = "300";
-	document.getElementsByTagName("a")[0].outerHTML = "You are using Hunter Fuller's CRM script.<br/>Closing tabs will not log you out.";
 	document.getElementsByTagName("img")[2].style.opacity = "0.5";
+	//reminder
+	document.getElementsByTagName("a")[0].outerHTML = "You are using Hunter Fuller's CRM script.<br/>Closing tabs will not log you out.";
 	
 	form.action = 'javascript: \
 		document.form1.Username.value = document.form0.Username.value; \
@@ -43,6 +44,7 @@ if ( form != null ) {
 	';
 }
 
+//no logouts!
 var frameset = document.getElementsByTagName("frameset")[0];
 if ( frameset != null ) {
 	frameset.onbeforeunload = null;
