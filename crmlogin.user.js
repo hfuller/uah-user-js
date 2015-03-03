@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           [ITS] CRM fixes
 // @description    In Chrome you only have to hit return once to log in. Also, closing a tab doesn't log you out.
-// @namespace      http://its.uah.edu/tag
+// @namespace      http://hf0002.uah.edu/
 // @author         Hunter Fuller (hf0002@uah.edu)
 // @license        GNU GPL v3 (http://www.gnu.org/copyleft/gpl.html) 
 // @homepage       http://its.uah.edu/tag

@@ -1,18 +1,17 @@
 // ==UserScript==
-// @name           [ITS] Make SSB timesheets bearable
+// @name           [UAH] Make SSB timesheets bearable
 // @description    Automatically focuses the "Hours" field, and moves you to the next day on a timesheet
-// @namespace      http://its.uah.edu/tag
+// @namespace      http://hf0002.uah.edu/
 // @author         Hunter Fuller (hf0002@uah.edu)
 // @license        GNU GPL v3 (http://www.gnu.org/copyleft/gpl.html) 
-// @homepage       http://its.uah.edu/tag
-// @version        1
 // @include        https://sierra.uah.edu:9021/PROD/bwpktetm.P_EnterTimeSheet?*
 // @include        https://sierra.uah.edu:9021/PROD/bwpktetm.P_UpdateTimeSheet
 // @include		   https://sierra.uah.edu:9021/PROD/bwpktetm.P_TimeSheetButtonsDriver
 //
 // @require        https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js
 //
-// @version		   8
+// @version		   9
+// @history        9 cleanup
 // @history        8 added reminder that the script is loaded
 // @history        7 disable the hours field while we are doing magic
 // @history        6 Scroll down to bottom of page

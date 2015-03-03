@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name        [ITS] ANGEL fixes
-// @namespace   http://its.uah.edu/
+// @name        ANGEL fixes
+// @namespace   http://hf0002.uah.edu/
 // @description Fix some minor ANGEL annoyances.
 // @include     https://angel.uah.edu/Section/Assessment/*
 // @include		https://angel.uah.edu/default.asp*
