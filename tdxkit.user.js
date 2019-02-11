@@ -2,7 +2,7 @@
 // @name        TDXKit
 // @author      Hunter Fuller <hf0002@uah.edu>
 // @description Adds some opinionated improvements to TeamDynamix
-// @version     4
+// @version     5
 // @updateURL   https://github.com/hfuller/uah-user-js/raw/master/tdxkit.user.js
 // @downloadURL https://github.com/hfuller/uah-user-js/raw/master/tdxkit.user.js
 // @namespace   https://github.com/hfuller/uah-user-js
@@ -10,6 +10,7 @@
 // @grant       none
 // @include     https://*.teamdynamix.com/TDNext/*
 
+// @history     5 Actually automatically add customer(s) to the Notify box this time
 // @history     4 (Try to) add the customer(s) to the Notify box when we uncheck the Private box
 // @history     3 If TDX pops a window using a ToUrl deep link (post-login), close it and go there in-window instead
 // @history     2 Replace all links that just run openWin() with direct links
@@ -82,7 +83,8 @@ if ( cbCommentsIsPrivate !== null ) {
             let toRemove = [];
             for ( let item of list ) {
                 console.log(item.attributes['aria-label']);
-                if ( item.attributes['aria-label'].toString().includes("Requestor") || item.attributes['aria-label'].toString().includes("Contact") ) {
+                let labelString = item.attributes['aria-label'].nodeValue;
+                if ( labelString.includes("Requestor") || labelString.includes("Contact") ) {
                     console.log("that person gets included");
                 } else {
                     console.log("removing that person");
