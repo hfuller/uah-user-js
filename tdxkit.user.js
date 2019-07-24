@@ -2,7 +2,7 @@
 // @name        TDXKit
 // @author      Hunter Fuller <hf0002@uah.edu>
 // @description Adds some opinionated improvements to TeamDynamix
-// @version     5
+// @version     6
 // @updateURL   https://github.com/hfuller/uah-user-js/raw/master/tdxkit.user.js
 // @downloadURL https://github.com/hfuller/uah-user-js/raw/master/tdxkit.user.js
 // @namespace   https://github.com/hfuller/uah-user-js
@@ -10,6 +10,7 @@
 // @grant       none
 // @include     https://*.teamdynamix.com/TDNext/*
 
+// @history     6 Don't patch openWin on edit windows so we can select services and customers.
 // @history     5 Actually automatically add customer(s) to the Notify box this time
 // @history     4 (Try to) add the customer(s) to the Notify box when we uncheck the Private box
 // @history     3 If TDX pops a window using a ToUrl deep link (post-login), close it and go there in-window instead
@@ -37,13 +38,17 @@ if ( elTabs !== null ) {
 console.log("Adding prefix to window title");
 document.title = "[TDX] " + document.title.replace("TeamDynamix ", "");
 
-console.log("patching openWin");
-window.eval(`
-  console.log("Test");
-	window.openWin = function(url, width, height, name, scrollbars){
-		window.location = url;
-	};
-`);
+if ( ! document.location.href.includes("Edit?") ) {
+    console.log("patching openWin");
+    window.eval(`
+        console.log("we are patching it");
+        window.openWin = function(url, width, height, name, scrollbars){
+            window.location = url;
+        };
+    `);
+} else {
+    console.log("Not patching openWin because we're on an edit window")
+}
 
 console.log("fixing links");
 for ( let a of document.getElementsByTagName('a') ) {
