@@ -2,7 +2,7 @@
 // @name        TDXKit
 // @author      Hunter Fuller <hf0002@uah.edu>
 // @description Adds some opinionated improvements to TeamDynamix
-// @version     6
+// @version     7
 // @updateURL   https://github.com/hfuller/uah-user-js/raw/master/tdxkit.user.js
 // @downloadURL https://github.com/hfuller/uah-user-js/raw/master/tdxkit.user.js
 // @namespace   https://github.com/hfuller/uah-user-js
@@ -10,6 +10,7 @@
 // @grant       none
 // @include     https://*.teamdynamix.com/TDNext/*
 
+    // @history     7 Remove all people from notifications when private box is checked
 // @history     6 Don't patch openWin on edit windows so we can select services and customers.
 // @history     5 Actually automatically add customer(s) to the Notify box this time
 // @history     4 (Try to) add the customer(s) to the Notify box when we uncheck the Private box
@@ -97,6 +98,11 @@ if ( cbCommentsIsPrivate !== null ) {
                 }
             }
             for ( let item of toRemove ) {
+                item.click();
+            }
+        } else {
+            console.log("They unchecked the box");
+            for ( let item of document.getElementById("s2id_NotificationEmails").getElementsByTagName("a") ) {
                 item.click();
             }
         }
