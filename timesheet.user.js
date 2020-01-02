@@ -29,6 +29,7 @@ document.getElementsByClassName("dataentrytable")[0].innerHTML += "<tr><td></td>
 
 //don't think we're using this anymore but I'll leave it for now
 if (typeof String.prototype.endsWith !== 'function') {
+    console.log("Fixing up endsWith");
     String.prototype.endsWith = function(suffix) {
         return this.indexOf(suffix, this.length - suffix.length) !== -1;
     };
