@@ -3,14 +3,15 @@
 // @description    Automatically focuses the "Hours" field, and moves you to the next day on a timesheet
 // @namespace      http://hf0002.uah.edu/
 // @author         Hunter Fuller (hf0002@uah.edu)
-// @license        GNU GPL v3 (http://www.gnu.org/copyleft/gpl.html) 
+// @license        GNU GPL v3 (http://www.gnu.org/copyleft/gpl.html)
 // @include        https://sierra.uah.edu:9021/PROD/bwpktetm.P_EnterTimeSheet?*
 // @include        https://sierra.uah.edu:9021/PROD/bwpktetm.P_UpdateTimeSheet
 // @include		   https://sierra.uah.edu:9021/PROD/bwpktetm.P_TimeSheetButtonsDriver
 //
 // @require        https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js
 //
-// @version		   9
+// @version        10
+// @history        10 Don't index arbitrary amounts into the links; Don't skip to the next earn code
 // @history        9 cleanup
 // @history        8 added reminder that the script is loaded
 // @history        7 disable the hours field while we are doing magic
@@ -38,15 +39,20 @@ window.scrollTo(0, document.body.scrollHeight);
 
 //var form = document.getElementsByTagName("form")[1]
 if ( window.location.pathname.endsWith("UpdateTimeSheet") ) { //the user just submitted a timesheet change
-	
+
 	//disable the hours field while we do stuff
 	document.getElementById("hours_id").disabled = true;
 
-	var current = document.getElementsByName("DateSelected")[0].value; //current date, like 31-MAY-2013
+	var currentDate = document.getElementsByName("DateSelected")[0].value; //current date, like 31-MAY-2013
+    var currentEarnCode = document.getElementsByName("EarnCode")[0].value; //current earn code ID, like 180 is sick leave
+    console.log("Current stuff is: " + currentEarnCode + " " + currentDate);
+
 	var links = document.getElementsByTagName("A"); //find all the links
-	
+
 	for ( var i = 0; i < links.length; i++ ) {
-		if ( links[i].href.indexOf(current) != -1 ) { //if the current date is present in that link
+        if ( (links[i].href.indexOf("DateSelected=" + currentDate) != -1) && (links[i].href.indexOf("EarnCode=" + currentEarnCode) != -1) ) { //if the current date and current earn code are both present in that link
+            console.log("found today's link");
+            console.log(links[i]);
 			//we found the current day's link. if there is another one after it, then click it
 			if ( links.length >= i+1 ) { //if there are links left on the page
 				//well, there are more links, but we need to check if this one is at the end of the row. if it is, we will stop and click Next instead
@@ -68,7 +74,9 @@ if ( window.location.pathname.endsWith("UpdateTimeSheet") ) { //the user just su
 					}
 				} else {
 					//otherwise we click the link after today's.
-					window.location = links[i+1].href;
+					console.log("About to click:");
+                    console.log(links[i+1]);
+                    window.location = links[i+1].href;
 				}
 			}
 			break;
