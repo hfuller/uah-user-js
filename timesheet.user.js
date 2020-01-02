@@ -57,7 +57,8 @@ if ( window.location.pathname.endsWith("UpdateTimeSheet") ) { //the user just su
 			if ( links.length >= i+1 ) { //if there are links left on the page
 				//well, there are more links, but we need to check if this one is at the end of the row. if it is, we will stop and click Next instead
 				//alert(i);
-				if ( (i-10) % 7 == 0 ) { //if we're at a link number of multiple of 7 (the 7th or 14th or [...] link) - we subtract the first 10 links on the page
+				//if ( (i-10) % 7 == 0 ) { //if we're at a link number of multiple of 7 (the 7th or 14th or [...] link) - we subtract the first 10 links on the page
+                if ( links[i+1].href.indexOf("EarnCode=" + currentEarnCode) == -1 ) { //if the next link has a different earn code (i.e., it's on the next row)
 					//then we click Next
 					var buttons = document.getElementsByName("ButtonSelected");
 					var nextClicked = false;
