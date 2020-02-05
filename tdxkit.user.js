@@ -10,6 +10,7 @@
 // @grant       none
 // @include     https://*.teamdynamix.com/TDNext/*
 
+// @history     9 Add Gonuts link to the requestor when we are looking at a ticket
 // @history     8 Send us back to TicketDet after a successful Update
 // @history     7 Remove all people from notifications when private box is checked
 // @history     6 Don't patch openWin on edit windows so we can select services and customers.
@@ -115,4 +116,32 @@ if ( document.location.href.includes("Update?") ) {
         console.log("Ticket updated. Sending us back to the ticket.");
         document.location.href = document.location.href.replace("Update?", "TicketDet?");
     }
+}
+
+//UAH Specific stuff below this line.
+
+//Add Gonuts link to the requestor section on tickets.
+if ( document.location.href.includes("TicketDet?") ) {
+    let els = document.getElementsByClassName("ellipsis");
+    let description = "View in Gonuts";
+    let uid = "";
+    let link = "";
+    if ( els.length >= 5 ) {
+        uid = els[4].innerHTML.trim();
+        link = "https://gonuts.uah.edu/?q=details:ldap:uid=" + uid + ",ou=People,dc=uah,dc=edu&ref=details&btnK=tdxkit";
+    } else if ( els.length >= 1 ) {
+        uid = els[0].children[0].innerHTML.replace(/@.*/, "");
+        description = "Attempt to find in Gonuts";
+        link = "https://gonuts.uah.edu/?q=" + uid + "&btnK=tdxkit";
+    }
+
+    let thing = document.createElement("a");
+
+    thing.innerHTML = description;
+    thing.href = link;
+    thing.target = "_blank";
+    thing.style.lineHeight = "28px";
+
+    document.getElementsByClassName("media-body")[0].appendChild(thing);
+
 }
