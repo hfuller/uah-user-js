@@ -4,13 +4,14 @@
 // @namespace      http://hf0002.uah.edu/
 // @author         Hunter Fuller (hf0002@uah.edu)
 // @license        GNU GPL v3 (http://www.gnu.org/copyleft/gpl.html)
-// @include        https://sierra.uah.edu:9021/PROD/bwpktetm.P_EnterTimeSheet?*
-// @include        https://sierra.uah.edu:9021/PROD/bwpktetm.P_UpdateTimeSheet
-// @include		   https://sierra.uah.edu:9021/PROD/bwpktetm.P_TimeSheetButtonsDriver
+// @include        https://ssbprod.uah.edu:9021/PROD/bwpktetm.P_EnterTimeSheet?*
+// @include        https://ssbprod.uah.edu:9021/PROD/bwpktetm.P_UpdateTimeSheet
+// @include	   https://ssbprod.uah.edu:9021/PROD/bwpktetm.P_TimeSheetButtonsDriver
 //
 // @require        https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js
 //
-// @version        10
+// @version        11
+// @history        11 Replace sierra with ssbprod
 // @history        10 Don't index arbitrary amounts into the links; Don't skip to the next earn code
 // @history        9 cleanup
 // @history        8 added reminder that the script is loaded
