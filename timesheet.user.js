@@ -6,11 +6,15 @@
 // @license        GNU GPL v3 (http://www.gnu.org/copyleft/gpl.html)
 // @include        https://ssbprod.uah.edu:9021/PROD/bwpktetm.P_EnterTimeSheet?*
 // @include        https://ssbprod.uah.edu:9021/PROD/bwpktetm.P_UpdateTimeSheet
-// @include	   https://ssbprod.uah.edu:9021/PROD/bwpktetm.P_TimeSheetButtonsDriver
+// @include        https://ssbprod.uah.edu:9021/PROD/bwpktetm.P_TimeSheetButtonsDriver
+// @include        https://ssbprod.uah.edu/PROD/bwpktetm.P_EnterTimeSheet?*
+// @include        https://ssbprod.uah.edu/PROD/bwpktetm.P_UpdateTimeSheet
+// @include        https://ssbprod.uah.edu/PROD/bwpktetm.P_TimeSheetButtonsDriver
 //
 // @require        https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js
 //
-// @version        11
+// @version        12
+// @history        12 Add includes for ssbprod URLs without port numbers
 // @history        11 Replace sierra with ssbprod
 // @history        10 Don't index arbitrary amounts into the links; Don't skip to the next earn code
 // @history        9 cleanup
