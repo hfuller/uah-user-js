@@ -4,16 +4,15 @@
 // @namespace      http://hf0002.uah.edu/
 // @author         Hunter Fuller (hf0002@uah.edu)
 // @license        GNU GPL v3 (http://www.gnu.org/copyleft/gpl.html)
-// @include        https://ssbprod.uah.edu:9021/PROD/bwpktetm.P_EnterTimeSheet?*
-// @include        https://ssbprod.uah.edu:9021/PROD/bwpktetm.P_UpdateTimeSheet
-// @include        https://ssbprod.uah.edu:9021/PROD/bwpktetm.P_TimeSheetButtonsDriver
 // @include        https://ssbprod.uah.edu/PROD/bwpktetm.P_EnterTimeSheet?*
 // @include        https://ssbprod.uah.edu/PROD/bwpktetm.P_UpdateTimeSheet
 // @include        https://ssbprod.uah.edu/PROD/bwpktetm.P_TimeSheetButtonsDriver
+// @include        https://ssbprod.uah.edu/PROD/bwpkteis.P_SelectTimeSheetDriver
 //
 // @require        https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js
 //
-// @version        12
+// @version        13
+// @history        13 Add "Jump to this date in my calendar" link (and misc cleanup)
 // @history        12 Add includes for ssbprod URLs without port numbers
 // @history        11 Replace sierra with ssbprod
 // @history        10 Don't index arbitrary amounts into the links; Don't skip to the next earn code
@@ -30,7 +29,10 @@
 // ==/UserScript==
 
 //add a notice that you are using this script
-document.getElementsByClassName("dataentrytable")[0].innerHTML += "<tr><td></td><td>Reminder: You are using Hunter Fuller's script to automate entry of hours.</td></tr>";
+let elsTableStuff = document.getElementsByClassName("dataentrytable");
+if (elsTableStuff.length > 0) {
+    elsTableStuff[0].innerHTML += "<tr><td></td><td>Reminder: You are using Hunter Fuller's script to automate entry of hours.</td></tr>";
+}
 
 //don't think we're using this anymore but I'll leave it for now
 if (typeof String.prototype.endsWith !== 'function') {
@@ -43,10 +45,23 @@ if (typeof String.prototype.endsWith !== 'function') {
 //scroll down all the way
 window.scrollTo(0, document.body.scrollHeight);
 
+let elTimesheetDates = document.getElementsByClassName("dddefault")[2];
+console.log(elTimesheetDates);
+if ( elTimesheetDates.innerText.includes(" to ") ) {
+    let firstDateStr = elTimesheetDates.innerText.split(" to ")[0];
+    let firstDate = new Date(firstDateStr);
+    console.log(firstDate);
+    console.log(firstDate.getYear());
+    let calLink = "https://calendar.google.com/calendar/a/uah.edu/r/week/" + firstDate.getFullYear() + "/" + (firstDate.getMonth()+1) + "/" + firstDate.getDate();
+    console.log(calLink);
+    elTimesheetDates.innerHTML += ' <a href="' + calLink + '" target="_blank">(Jump to this date in my UAH calendar)</a>';
+}
+
 //var form = document.getElementsByTagName("form")[1]
 if ( window.location.pathname.endsWith("UpdateTimeSheet") ) { //the user just submitted a timesheet change
 
 	//disable the hours field while we do stuff
+    //FIXME: We might die here if there is no hours field (no date selected)
 	document.getElementById("hours_id").disabled = true;
 
 	var currentDate = document.getElementsByName("DateSelected")[0].value; //current date, like 31-MAY-2013
