@@ -2,7 +2,7 @@
 // @name        TDXKit
 // @author      Hunter Fuller <hf0002@uah.edu>
 // @description Adds some opinionated improvements to TeamDynamix
-// @version     9
+// @version     10
 // @updateURL   https://github.com/hfuller/uah-user-js/raw/master/tdxkit.user.js
 // @downloadURL https://github.com/hfuller/uah-user-js/raw/master/tdxkit.user.js
 // @namespace   https://github.com/hfuller/uah-user-js
@@ -10,15 +10,16 @@
 // @grant       none
 // @include     https://*.teamdynamix.com/TDNext/*
 
-// @history     9 Add Gonuts link to the requestor when we are looking at a ticket
-// @history     8 Send us back to TicketDet after a successful Update
-// @history     7 Remove all people from notifications when private box is checked
-// @history     6 Don't patch openWin on edit windows so we can select services and customers.
-// @history     5 Actually automatically add customer(s) to the Notify box this time
-// @history     4 (Try to) add the customer(s) to the Notify box when we uncheck the Private box
-// @history     3 If TDX pops a window using a ToUrl deep link (post-login), close it and go there in-window instead
-// @history     2 Replace all links that just run openWin() with direct links
-// @history     1 Patch openWin to not actually open a window
+// @history     10 Add "Save and Go Home" to ticket update pages
+// @history     9  Add Gonuts link to the requestor when we are looking at a ticket
+// @history     8  Send us back to TicketDet after a successful Update
+// @history     7  Remove all people from notifications when private box is checked
+// @history     6  Don't patch openWin on edit windows so we can select services and customers.
+// @history     5  Actually automatically add customer(s) to the Notify box this time
+// @history     4  (Try to) add the customer(s) to the Notify box when we uncheck the Private box
+// @history     3  If TDX pops a window using a ToUrl deep link (post-login), close it and go there in-window instead
+// @history     2  Replace all links that just run openWin() with direct links
+// @history     1  Patch openWin to not actually open a window
 // ==/UserScript==
 
 console.log("TDXKit loaded.");
@@ -113,9 +114,27 @@ if ( cbCommentsIsPrivate !== null ) {
 
 if ( document.location.href.includes("Update?") ) {
     if ( document.getElementsByClassName("alert-success").length > 0 ) {
-        console.log("Ticket updated. Sending us back to the ticket.");
-        document.location.href = document.location.href.replace("Update?", "TicketDet?");
+        console.log("Ticket updated.");
+        if ( window.localStorage.getItem("TDXKit_SaveAndCloseTab") ) {
+            console.log("Sending us to TDNext");
+            window.localStorage.removeItem("TDXKit_SaveAndCloseTab");
+            document.location.href = document.location.href.substr(0,document.location.href.indexOf("TDNext")+7)
+        } else {
+            console.log("Sending us back to the ticket.");
+            document.location.href = document.location.href.replace("Update?", "TicketDet?");
+        }
     }
+
+    //Add the "save and close" button.
+    let btnSubmit = document.getElementById("btnSubmit");
+    let parent = btnSubmit.parentElement;
+    let btnSubmitNew = btnSubmit.cloneNode();
+    btnSubmitNew.innerHTML = "🏠 Save and Go Home";
+    btnSubmitNew.onclick = function(){
+        window.localStorage.setItem("TDXKit_SaveAndCloseTab", true);
+        btnSubmit.click();
+    };
+    parent.appendChild(btnSubmitNew);
 }
 
 //UAH Specific stuff below this line.
