@@ -2,7 +2,7 @@
 // @name        TDXKit
 // @author      Hunter Fuller <hf0002@uah.edu>
 // @description Adds some opinionated improvements to TeamDynamix
-// @version     10
+// @version     11
 // @updateURL   https://github.com/hfuller/uah-user-js/raw/master/tdxkit.user.js
 // @downloadURL https://github.com/hfuller/uah-user-js/raw/master/tdxkit.user.js
 // @namespace   https://github.com/hfuller/uah-user-js
@@ -10,6 +10,7 @@
 // @grant       none
 // @include     https://*.teamdynamix.com/TDNext/*
 
+// @history     11 Disable CKEditor (WYSIWYG) in new TDX release, but you can re-enable it.
 // @history     10 Add "Save and Go Home" to ticket update pages
 // @history     9  Add Gonuts link to the requestor when we are looking at a ticket
 // @history     8  Send us back to TicketDet after a successful Update
@@ -136,6 +137,27 @@ if ( document.location.href.includes("Update?") ) {
     };
     parent.appendChild(btnSubmitNew);
 }
+
+//Undo the ckeditor stuff
+console.log("Adding ckeditor destroy timeouts");
+let dfn = function() {
+    window.editors["Comments_Content"].destroy();
+    console.log("Destroyed editor");
+};
+window.setTimeout(dfn, 1000);
+window.setTimeout(dfn, 2000);
+window.setTimeout(dfn, 5000);
+let ta = document.getElementById("Comments_Content");
+ta.style.width = "100%";
+ta.style.height = "222px";
+let tabtn = document.createElement("a");
+tabtn.innerHTML = "WYSIWYG";
+tabtn.href = "#divButtonsContainer";
+tabtn.onclick = function(e) {
+    window.CKEDITOR.replaceAll();
+    e.target.remove();
+};
+ta.parentElement.insertBefore(tabtn, null);
 
 //UAH Specific stuff below this line.
 
