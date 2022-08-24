@@ -2,7 +2,7 @@
 // @name        TDXKit
 // @author      Hunter Fuller <hf0002@uah.edu>
 // @description Adds some opinionated improvements to TeamDynamix
-// @version     11
+// @version     12
 // @updateURL   https://github.com/hfuller/uah-user-js/raw/master/tdxkit.user.js
 // @downloadURL https://github.com/hfuller/uah-user-js/raw/master/tdxkit.user.js
 // @namespace   https://github.com/hfuller/uah-user-js
@@ -10,6 +10,7 @@
 // @grant       none
 // @include     https://*.teamdynamix.com/TDNext/*
 
+// @history     12 Give the option to disable CKEditor, don't do it by default
 // @history     11 Disable CKEditor (WYSIWYG) in new TDX release, but you can re-enable it.
 // @history     10 Add "Save and Go Home" to ticket update pages
 // @history     9  Add Gonuts link to the requestor when we are looking at a ticket
@@ -140,23 +141,18 @@ if ( document.location.href.includes("Update?") ) {
 
 //Undo the ckeditor stuff
 console.log("Adding ckeditor destroy timeouts");
-let dfn = function() {
+let dfn = function(e) {
     window.editors["Comments_Content"].destroy();
     console.log("Destroyed editor");
+    e.target.remove();
 };
-window.setTimeout(dfn, 1000);
-window.setTimeout(dfn, 2000);
-window.setTimeout(dfn, 5000);
 let ta = document.getElementById("Comments_Content");
 ta.style.width = "100%";
 ta.style.height = "222px";
 let tabtn = document.createElement("a");
-tabtn.innerHTML = "WYSIWYG";
+tabtn.innerHTML = "Remove WYSIWYG";
 tabtn.href = "#divButtonsContainer";
-tabtn.onclick = function(e) {
-    window.CKEDITOR.replaceAll();
-    e.target.remove();
-};
+tabtn.onclick = dfn;
 ta.parentElement.insertBefore(tabtn, null);
 
 //UAH Specific stuff below this line.
